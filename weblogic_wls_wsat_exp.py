@@ -111,9 +111,9 @@ main
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument('-t', '--target',required=True, help='weblogic ip and port(eg -> 172.16.80.131:7001)')
-    parse.add_argument('-c', '--cmd', required=False,default='id', help='cmd to execute,default is id')
+    parse.add_argument('-c', '--cmd', required=False,default='id', help='command to execute,default is "id"')
     parse.add_argument('-o', '--output', required=False,default='output.txt', help='output file name,default is output.txt')
-    parse.add_argument('-s', '--shell', required = False,default='',help='getshell by upload jsp file')
+    parse.add_argument('-s', '--shell', required = False,default='',help='local jsp file name to upload,and set -o xxx.jsp')
     args = parse.parse_args()
     
     if args.shell!='':
