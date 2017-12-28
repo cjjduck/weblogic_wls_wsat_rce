@@ -11,7 +11,7 @@ Supported versions that are affected are 10.3.6.0.0, 12.1.3.0.0, 12.2.1.1.0 and 
 Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebLogic Server
 Modified by hanc00l
 '''
-proxies = {'http':'http://127.0.0.1:8080'}
+proxies = None#{'http':'http://127.0.0.1:8080'}
 headers = {'User-Agent':'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)'}
 timeout = 5
 '''
